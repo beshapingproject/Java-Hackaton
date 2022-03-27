@@ -15,6 +15,7 @@ import it.be.codingRace.dto.AttachmentDTO;
 import it.be.codingRace.exception.AttachmentException;
 import it.be.codingRace.exception.AttachmentException.Type;
 import it.be.codingRace.service.AttachmentService;
+import it.be.codingRace.utils.JsonResponseBody;
 
 @RestController
 @RequestMapping("attachment")
@@ -22,11 +23,12 @@ public class AttachmentController {
   @Autowired private AttachmentService attachmentService;
 
   @PostMapping("/upload")
-  public ResponseEntity<String> loginAction(@RequestPart(name = "file") MultipartFile file)
-      throws AttachmentException {
+  public ResponseEntity<JsonResponseBody> loginAction(
+      @RequestPart(name = "file") MultipartFile file) throws AttachmentException {
     AttachmentDTO dto = fromPartToDto(file);
 
-    return ResponseEntity.status(HttpStatus.OK).body(attachmentService.uploadAttachment(dto));
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(new JsonResponseBody(HttpStatus.OK.value(), attachmentService.uploadAttachment(dto)));
   }
 
   private AttachmentDTO fromPartToDto(MultipartFile file) throws AttachmentException {

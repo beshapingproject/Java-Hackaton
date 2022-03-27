@@ -18,7 +18,8 @@ import it.be.codingRace.utils.ValidatorUtils;
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 public class TicketService {
 
-  @Autowired private TicketRepository ticketRepository;
+  @Autowired
+  private TicketRepository ticketRepository;
 
   public CreateTicketResponseDTO addTicket(TicketDTO ticket) throws TicketException {
     validateRequest(ticket);

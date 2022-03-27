@@ -2,6 +2,13 @@ package it.be.codingRace.exception;
 
 import org.springframework.http.HttpStatus;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class TicketException extends Exception {
 
   /** */
@@ -11,46 +18,16 @@ public class TicketException extends Exception {
   private String message;
   private Type type;
 
-  public TicketException(Throwable cause, String message, Type type) {
-    super();
-    this.cause = cause;
-    this.message = message;
-    this.type = type;
-  }
-
   public TicketException(String message, Type type) {
     super();
     this.message = message;
     this.type = type;
   }
 
-  public Throwable getCause() {
-    return cause;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  public Type getType() {
-    return type;
-  }
-
+  @AllArgsConstructor
   public static enum Type {
     INVALID_REQUEST(HttpStatus.BAD_REQUEST);
 
-    private HttpStatus status;
-
-    private Type(HttpStatus status) {
-      this.status = status;
-    }
-
-    public HttpStatus getStatus() {
-      return status;
-    }
-
-    public void setStatus(HttpStatus status) {
-      this.status = status;
-    }
+    @Getter @Setter private HttpStatus status;
   }
 }

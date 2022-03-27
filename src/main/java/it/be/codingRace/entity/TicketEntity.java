@@ -7,8 +7,17 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Table(name = "TICKET")
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TicketEntity {
 
   @Id
@@ -19,38 +28,4 @@ public class TicketEntity {
   private String subject;
 
   private String content;
-
-  public TicketEntity(String subject, String content) {
-    super();
-    this.subject = subject;
-    this.content = content;
-  }
-
-  public TicketEntity() {
-    super();
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getSubject() {
-    return subject;
-  }
-
-  public void setSubject(String subject) {
-    this.subject = subject;
-  }
-
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
 }

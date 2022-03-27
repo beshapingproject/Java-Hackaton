@@ -4,6 +4,15 @@ import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TicketDTO implements Serializable {
   /** */
   private static final long serialVersionUID = 832598692666554292L;
@@ -13,30 +22,4 @@ public class TicketDTO implements Serializable {
 
   @NotEmpty(message = "content must not be empty")
   private String content;
-
-  public TicketDTO(String subject, String content) {
-    super();
-    this.subject = subject;
-    this.content = content;
-  }
-
-  public TicketDTO() {
-    super();
-  }
-
-  public String getSubject() {
-    return subject;
-  }
-
-  public void setSubject(String subject) {
-    this.subject = subject;
-  }
-
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
 }

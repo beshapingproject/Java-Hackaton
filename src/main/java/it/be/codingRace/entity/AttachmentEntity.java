@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Table(name = "ATTACHMENT")
 @Entity
 @Data
@@ -31,4 +33,8 @@ public class AttachmentEntity {
   private long size;
 
   @Lob private byte[] body;
+
+  private Date created;
+
+  private Date updated;
 }

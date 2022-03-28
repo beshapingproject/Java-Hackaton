@@ -1,6 +1,6 @@
 package it.be.codingRace.validation;
 
-import it.be.codingRace.entity.Utente;
+import it.be.codingRace.entity.User;
 import it.be.codingRace.exception.UserException;
 import it.be.codingRace.utils.Constants;
 
@@ -8,19 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 
 public class UserSession {
 
-    public static Utente checkUtenteInSession(HttpServletRequest request) {
+    public static User checkUtenteInSession(HttpServletRequest request) {
 
-        Utente utente = null;
+        User user = null;
         try {
-            utente = (Utente) request.getSession().getAttribute(Constants.UTENTE_SESSION.getValue());
-            if (utente == null) {
+            user = (User) request.getSession().getAttribute(Constants.UTENTE_SESSION.getValue());
+            if (user == null) {
                 return null;
             }
         } catch(Exception e) {
             throw new UserException("Sessione utente scaduta!");
         }
 
-        return utente;
+        return user;
     }
 
 

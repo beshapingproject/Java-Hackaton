@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketDTO implements Serializable {
+public class TicketRequestDTO implements Serializable {
   /** */
   private static final long serialVersionUID = 832598692666554292L;
 
@@ -22,4 +22,12 @@ public class TicketDTO implements Serializable {
 
   @NotEmpty(message = "content must not be empty")
   private String content;
+
+  @NotEmpty(message = "content must not be empty")
+  private String subCategory;
+
+  private String status;
+
+  private Long id;
+
 }

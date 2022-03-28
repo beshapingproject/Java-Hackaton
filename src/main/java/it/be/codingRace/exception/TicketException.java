@@ -26,7 +26,9 @@ public class TicketException extends Exception {
 
   @AllArgsConstructor
   public static enum Type {
-    INVALID_REQUEST(HttpStatus.BAD_REQUEST);
+    INVALID_REQUEST(HttpStatus.BAD_REQUEST),
+    ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND);
+
 
     @Getter @Setter private HttpStatus status;
   }

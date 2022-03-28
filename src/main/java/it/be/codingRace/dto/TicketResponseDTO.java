@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateTicketResponseDTO {
+public class TicketResponseDTO {
   public static final String OK_STATUS = "OK";
   public static final String KO_STATUS = "KO";
 
@@ -15,13 +15,13 @@ public class CreateTicketResponseDTO {
 
   private ErrorMessageDTO errorMessage;
 
-  public CreateTicketResponseDTO(Long ticketId) {
+  public TicketResponseDTO(Long ticketId) {
     super();
     this.status = OK_STATUS;
     this.ticketId = ticketId;
   }
 
-  public CreateTicketResponseDTO(ErrorMessageDTO errorMessage) {
+  public TicketResponseDTO(ErrorMessageDTO errorMessage) {
     super();
     this.status = KO_STATUS;
     this.errorMessage = errorMessage;

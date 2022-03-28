@@ -2,7 +2,11 @@ package it.be.codingRace.utils;
 
 public enum Constants {
 
-    UTENTE_SESSION ("UTENTE_SESSION");
+    UTENTE_SESSION ("UTENTE_SESSION"),
+    NEW ("NEW"),
+    IN_PROGRESS ("IN PROGRESS"),
+    CLOSED ("CLOSED");
+
 
     private final String value;
 
@@ -13,4 +17,5 @@ public enum Constants {
     public String getValue() {
         return value;
     }
+
 }

@@ -9,6 +9,8 @@ import javax.persistence.Table;
 
 import lombok.*;
 
+import java.util.Date;
+
 @Table(name = "TICKET")
 @Entity
 @NoArgsConstructor
@@ -24,4 +26,13 @@ public class TicketEntity {
   private String subject;
 
   private String content;
+
+  private String subCategory;
+
+  private String status;
+
+  private Date created;
+
+  private Date updated;
+
 }

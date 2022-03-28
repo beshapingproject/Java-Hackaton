@@ -2,6 +2,8 @@ package it.be.codingRace.controller;
 
 import java.io.IOException;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +22,9 @@ import it.be.codingRace.utils.JsonResponseBody;
 @RestController
 @RequestMapping("attachment")
 public class AttachmentController {
-  @Autowired private AttachmentService attachmentService;
 
-  @PostMapping("/upload")
-  public ResponseEntity<JsonResponseBody> loginAction(
-      @RequestPart(name = "file") MultipartFile file) throws AttachmentException {
-    AttachmentDTO dto = fromPartToDto(file);
-
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(new JsonResponseBody(HttpStatus.OK.value(), attachmentService.uploadAttachment(dto)));
-  }
+  @Autowired
+  private AttachmentService attachmentService;
 
   private AttachmentDTO fromPartToDto(MultipartFile file) throws AttachmentException {
     try {
@@ -39,5 +34,14 @@ public class AttachmentController {
       throw new AttachmentException(
           e, "Error during deserialization of multipart", Type.INVALID_REQUEST);
     }
+  }
+
+  @PostMapping("/upload")
+  @ApiOperation(value = "", notes = "UPLOAD FILE")
+  public ResponseEntity<JsonResponseBody> uploadFile(@ApiParam(name = "UPLOAD FILE") @RequestPart(name = "file") MultipartFile file) throws AttachmentException {
+
+    AttachmentDTO dto = fromPartToDto(file);
+
+    return ResponseEntity.status(HttpStatus.OK).body(new JsonResponseBody(HttpStatus.OK.value(), attachmentService.uploadAttachment(dto)));
   }
 }

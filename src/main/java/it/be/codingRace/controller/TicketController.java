@@ -1,5 +1,8 @@
 package it.be.codingRace.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +23,9 @@ public class TicketController {
   @Autowired private TicketService ticketService;
 
   @PostMapping("/add")
-  public ResponseEntity<JsonResponseBody> addTicket(@RequestBody TicketDTO ticket)
-      throws TicketException {
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(new JsonResponseBody(HttpStatus.OK.value(), ticketService.addTicket(ticket)));
+  @ApiOperation(value = "", notes = "CREAZIONE NUOVO TICKET")
+  public ResponseEntity<JsonResponseBody> addTicket(@ApiParam(name = "TICKET", value = "Ticket Body") @RequestBody TicketDTO ticket) throws TicketException {
+
+    return ResponseEntity.status(HttpStatus.OK).body(new JsonResponseBody(HttpStatus.OK.value(), ticketService.addTicket(ticket)));
   }
 }

@@ -6,11 +6,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.be.codingRace.dto.AttachmentDTO;
@@ -38,7 +36,7 @@ public class AttachmentController {
 
   @PostMapping("/upload")
   @ApiOperation(value = "", notes = "UPLOAD FILE")
-  public ResponseEntity<JsonResponseBody> uploadFile(@ApiParam(name = "UPLOAD FILE") @RequestPart(name = "file") MultipartFile file) throws AttachmentException {
+  public ResponseEntity<JsonResponseBody> uploadFile(@ApiParam(name = "file") @RequestPart(name = "file") MultipartFile file) throws AttachmentException {
 
     AttachmentDTO dto = fromPartToDto(file);
 

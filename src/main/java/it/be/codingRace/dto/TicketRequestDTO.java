@@ -1,6 +1,7 @@
 package it.be.codingRace.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -25,6 +26,8 @@ public class TicketRequestDTO implements Serializable {
 
   @NotEmpty(message = "content must not be empty")
   private String subCategory;
+
+  private List<Long> attachmentIds;
 
   private String status;
 

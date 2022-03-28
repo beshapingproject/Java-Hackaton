@@ -15,6 +15,9 @@ public class TicketResponseDTO {
 
   private ErrorMessageDTO errorMessage;
 
+  public TicketResponseDTO() {
+  }
+
   public TicketResponseDTO(Long ticketId) {
     super();
     this.status = OK_STATUS;

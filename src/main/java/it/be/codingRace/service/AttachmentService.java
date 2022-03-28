@@ -1,5 +1,6 @@
 package it.be.codingRace.service;
 
+import it.be.codingRace.exception.TicketException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.PropertyMapper;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import it.be.codingRace.exception.AttachmentException;
 import it.be.codingRace.exception.AttachmentException.Type;
 import it.be.codingRace.repository.AttachmentRepository;
 import it.be.codingRace.utils.ValidatorUtils;
+
+import java.util.List;
 
 @Service
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
@@ -42,5 +45,13 @@ public class AttachmentService {
     if (errorMessage != null) {
       throw new AttachmentException(errorMessage, Type.INVALID_REQUEST);
     }
+  }
+
+  public List<AttachmentEntity> checkIfAttachmentsExist(List<Long> attachmentIds) throws AttachmentException {
+    List<AttachmentEntity> attachmentEntityList = attachmentRepository.findByIdIn(attachmentIds);
+    if(attachmentEntityList.isEmpty()){
+      throw new AttachmentException("Attachments not found", AttachmentException.Type.ENTITY_NOT_FOUND);
+    }
+    return attachmentEntityList;
   }
 }

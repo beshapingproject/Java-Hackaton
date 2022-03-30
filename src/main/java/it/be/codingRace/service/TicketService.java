@@ -80,9 +80,10 @@ public class TicketService {
 
     TicketEntity ticketEntity = new TicketEntity();
     try {
-      List<AttachmentEntity> attachmentEntityList = attachmentService.checkIfAttachmentsExist(ticketDTO.getAttachmentIds());
-      ticketEntity.setAttachmentEntityList(attachmentEntityList);
-
+      if(ticketDTO.getAttachmentIds() != null && !ticketDTO.getAttachmentIds().isEmpty()) {
+        List<AttachmentEntity> attachmentEntityList = attachmentService.checkIfAttachmentsExist(ticketDTO.getAttachmentIds());
+        ticketEntity.setAttachmentEntityList(attachmentEntityList);
+      }
     } catch (AttachmentException e) {
       throw new TicketException("Attachments not present for ticket", TicketException.Type.ENTITY_NOT_FOUND);
     }

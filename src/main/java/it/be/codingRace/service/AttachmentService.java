@@ -85,7 +85,7 @@ public class AttachmentService {
 
   private void assertAttachmentIsPresent(Optional<AttachmentEntity> attachment)
       throws AttachmentException {
-    if (attachment.isEmpty()) {
+    if (!attachment.isPresent()) {
       throw new AttachmentException(
           "No attachment found", AttachmentException.Type.ENTITY_NOT_FOUND);
     }

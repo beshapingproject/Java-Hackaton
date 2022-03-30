@@ -13,6 +13,8 @@ import it.be.codingRace.exception.TicketException;
 import it.be.codingRace.service.TicketService;
 import it.be.codingRace.utils.JsonResponseBody;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("ticket/{customerId}")
 public class TicketController {

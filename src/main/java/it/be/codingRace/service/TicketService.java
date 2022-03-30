@@ -42,14 +42,18 @@ public class TicketService {
   @Autowired
   private TicketRepository ticketRepository;
   @Autowired
+  private CustomerRepository customerRepository;
+  @Autowired
   private AttachmentService attachmentService;
 
   @Autowired
   EntityManager entityManager;
 
-  public List<TicketResponseDTO> getTicketList(Long customerId, TicketFilterDTO filters){
-    //TODO: check if customer exists
-
+  public List<TicketResponseDTO> getTicketList(Long customerId, TicketFilterDTO filters) throws TicketException {
+    Optional<CustomerEntity> customerEntityOptional = customerRepository.findById(customerId);
+    if (!customerEntityOptional.isPresent()) {
+      throw new TicketException("Customer not found", Type.ENTITY_NOT_FOUND);
+    }
   List<TicketEntity> ticketEntityList = entityManager.createQuery(getCriteriaFromTicketFilterDTO(customerId, filters)).getResultList();
   return ticketEntityList.stream().map(t -> {
               TicketResponseDTO ticketResponseDTO = new TicketResponseDTO();
@@ -79,15 +83,12 @@ public class TicketService {
 
   public TicketResponseDTO addTicket(Long customerId, TicketRequestDTO ticketDTO)
       throws TicketException {
-    // TODO: check if customer exists
     Optional<CustomerEntity> customerEntityOptional = customerRepository.findById(customerId);
-
-    if (customerEntityOptional.isEmpty()) {
+    if (!customerEntityOptional.isPresent()) {
       throw new TicketException("Customer not found", Type.ENTITY_NOT_FOUND);
     }
 
     CustomerEntity customerEntity = customerEntityOptional.get();
-
     TicketEntity ticketEntity = new TicketEntity();
     try {
       if(ticketDTO.getAttachmentIds() != null && !ticketDTO.getAttachmentIds().isEmpty()) {
@@ -108,8 +109,10 @@ public class TicketService {
   }
 
   public TicketResponseDTO updateTicket(Long customerId, TicketRequestDTO ticketDTO) throws TicketException {
-    //TODO: check if customer exists
-
+    Optional<CustomerEntity> customerEntityOptional = customerRepository.findById(customerId);
+    if (!customerEntityOptional.isPresent()) {
+      throw new TicketException("Customer not found", Type.ENTITY_NOT_FOUND);
+    }
     if(ticketDTO.getStatus().equalsIgnoreCase(Constants.CLOSED.getValue())){
       throw new TicketException("Ticket already closed.", Type.INVALID_REQUEST);
     }

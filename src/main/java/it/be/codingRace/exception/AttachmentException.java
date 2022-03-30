@@ -27,8 +27,8 @@ public class AttachmentException extends Exception {
   @AllArgsConstructor
   public static enum Type {
     INVALID_REQUEST(HttpStatus.BAD_REQUEST),
-    ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND);
-
+    ENTITY_NOT_FOUND(HttpStatus.NOT_FOUND),
+    NULL_ATTACHMENT_ID(HttpStatus.BAD_REQUEST);
 
     @Getter @Setter private HttpStatus status;
   }

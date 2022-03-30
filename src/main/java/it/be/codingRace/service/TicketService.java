@@ -11,11 +11,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.be.codingRace.dto.TicketResponseDTO;
+import it.be.codingRace.dto.TicketFilterDTO;
 import it.be.codingRace.dto.TicketRequestDTO;
+import it.be.codingRace.dto.TicketResponseDTO;
+import it.be.codingRace.entity.AttachmentEntity;
+import it.be.codingRace.entity.CustomerEntity;
 import it.be.codingRace.entity.TicketEntity;
+import it.be.codingRace.exception.AttachmentException;
 import it.be.codingRace.exception.TicketException;
 import it.be.codingRace.exception.TicketException.Type;
+import it.be.codingRace.repository.CustomerRepository;
 import it.be.codingRace.repository.TicketRepository;
 import it.be.codingRace.utils.ValidatorUtils;
 
@@ -72,11 +77,16 @@ public class TicketService {
     return criteriaQuery;
   }
 
+  public TicketResponseDTO addTicket(Long customerId, TicketRequestDTO ticketDTO)
+      throws TicketException {
+    // TODO: check if customer exists
+    Optional<CustomerEntity> customerEntityOptional = customerRepository.findById(customerId);
 
+    if (customerEntityOptional.isEmpty()) {
+      throw new TicketException("Customer not found", Type.ENTITY_NOT_FOUND);
+    }
 
-
-  public TicketResponseDTO addTicket(Long customerId, TicketRequestDTO ticketDTO) throws TicketException {
-    //TODO: check if customer exists
+    CustomerEntity customerEntity = customerEntityOptional.get();
 
     TicketEntity ticketEntity = new TicketEntity();
     try {
@@ -90,6 +100,7 @@ public class TicketService {
     BeanUtils.copyProperties(ticketDTO, ticketEntity);
     ticketEntity.setCreated(new Date());
     ticketEntity.setStatus(Constants.NEW.getValue());
+    ticketEntity.setCustomer(customerEntity);
     ticketRepository.save(ticketEntity);
 
     BeanUtils.copyProperties(ticketEntity, ticketDTO);

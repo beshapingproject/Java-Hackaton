@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class TicketEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TICKET_SEQ")
+  @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "TICKET_SEQ")
   @SequenceGenerator(name = "TICKET_SEQ", allocationSize = 1)
   private Long id;
 

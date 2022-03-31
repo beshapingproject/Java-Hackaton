@@ -16,7 +16,7 @@ import java.util.Date;
 public class AttachmentEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ATTACHMENT_SEQ")
+  @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "ATTACHMENT_SEQ")
   @SequenceGenerator(name = "ATTACHMENT_SEQ", allocationSize = 1)
   private Long id;
 

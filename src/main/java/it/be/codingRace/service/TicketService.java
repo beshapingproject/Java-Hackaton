@@ -78,7 +78,7 @@ public class TicketService {
       predicates.add(cb.equal(ticketEntityRoot.get("status"), filters.getStatus()));
     }
     criteriaQuery.where(predicates.toArray(new Predicate[0]));
-    criteriaQuery.orderBy(List.of(cb.asc(ticketEntityRoot.get("created"))));
+    criteriaQuery.orderBy(List.of(cb.desc(ticketEntityRoot.get("created"))));
     return criteriaQuery;
   }
 

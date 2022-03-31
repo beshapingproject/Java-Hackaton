@@ -9,7 +9,8 @@ import java.util.Date;
 @Setter
 public class TicketFilterDTO {
 
-    private Date creationDateFrom;
-    private Date creationDateTo;
+    private Date createdFrom;
+    private Date createdTo;
+    private String status;
 
 }

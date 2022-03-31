@@ -40,15 +40,28 @@ public class TicketController {
         .body(new JsonResponseBody(HttpStatus.OK.value(), ticketService.addTicket(1L, ticket)));
   }
 
-  @PostMapping("/update/{customerId}")
+  @PostMapping("/update")
   @ApiOperation(value = "", notes = "UPDATE TICKET")
   public ResponseEntity<JsonResponseBody> updateTicket(
-      @ApiParam(name = "CUSTOMER", value = "Customer Id") @PathVariable Long customerId,
-      @ApiParam(name = "TICKET", value = "Ticket Body") @Valid @RequestBody TicketRequestDTO ticket)
+     @ApiParam(name = "TICKET", value = "Ticket Body") @Valid @RequestBody TicketRequestDTO ticket)
       throws TicketException {
     return ResponseEntity.status(HttpStatus.OK)
         .body(
             new JsonResponseBody(
-                HttpStatus.OK.value(), ticketService.updateTicket(customerId, ticket)));
+                HttpStatus.OK.value(), ticketService.updateTicket(1L, ticket)));
   }
+
+
+  @GetMapping("/detail/{id}")
+  @ResponseBody
+  @ApiOperation(value = "", notes = "GET DETAILED TICKET")
+  public ResponseEntity<JsonResponseBody> getDetailedTicket(@PathVariable Long id)
+          throws TicketException {
+    return ResponseEntity.status(HttpStatus.OK)
+            .body(
+                    new JsonResponseBody(
+                            HttpStatus.OK.value(), ticketService.getDetailedTicket(1L, id)));
+  }
+
+
 }

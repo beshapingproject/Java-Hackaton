@@ -70,12 +70,15 @@ public class TicketService {
     Root<TicketEntity> ticketEntityRoot = criteriaQuery.from(TicketEntity.class);
 
     List<Predicate> predicates = new ArrayList<>();
-    predicates.add(cb.equal(ticketEntityRoot.get("customerEntity"), customerId));
-    if(filters.getCreationDateFrom() != null) {
-      predicates.add(cb.greaterThanOrEqualTo(ticketEntityRoot.get("creationDate"), filters.getCreationDateFrom()));
+    predicates.add(cb.equal(ticketEntityRoot.get("customer"), customerId));
+    if(filters.getCreatedFrom() != null) {
+      predicates.add(cb.greaterThanOrEqualTo(ticketEntityRoot.get("created"), filters.getCreatedFrom()));
     }
-    if(filters.getCreationDateTo() != null) {
-      predicates.add(cb.lessThanOrEqualTo(ticketEntityRoot.get("creationDate"), filters.getCreationDateTo()));
+    if(filters.getCreatedTo() != null) {
+      predicates.add(cb.lessThanOrEqualTo(ticketEntityRoot.get("created"), filters.getCreatedTo()));
+    }
+    if(filters.getStatus() != null) {
+      predicates.add(cb.equal(ticketEntityRoot.get("status"), filters.getStatus()));
     }
     criteriaQuery.where(predicates.toArray(new Predicate[0]));
     return criteriaQuery;
@@ -104,8 +107,9 @@ public class TicketService {
     ticketEntity.setCustomer(customerEntity);
     ticketRepository.save(ticketEntity);
 
-    BeanUtils.copyProperties(ticketEntity, ticketDTO);
-    return new TicketResponseDTO(ticketEntity.getId());
+    TicketResponseDTO ticketResponseDTO = new TicketResponseDTO(ticketEntity.getId());
+    BeanUtils.copyProperties(ticketEntity, ticketResponseDTO);
+    return ticketResponseDTO;
   }
 
   public TicketResponseDTO updateTicket(Long customerId, TicketRequestDTO ticketDTO) throws TicketException {
@@ -113,21 +117,43 @@ public class TicketService {
     if (!customerEntityOptional.isPresent()) {
       throw new TicketException("Customer not found", Type.ENTITY_NOT_FOUND);
     }
-    if(ticketDTO.getStatus().equalsIgnoreCase(Constants.CLOSED.getValue())){
-      throw new TicketException("Ticket already closed.", Type.INVALID_REQUEST);
-    }
+
     Optional<TicketEntity> optionalTicketEntity = ticketRepository.findById(ticketDTO.getId());
     if(!optionalTicketEntity.isPresent()){
-        throw new TicketException("Entity not found.", Type.ENTITY_NOT_FOUND);
+      throw new TicketException("Ticket not found.", Type.ENTITY_NOT_FOUND);
     }
 
     TicketEntity ticketEntity = optionalTicketEntity.get();
+    if(ticketEntity.getStatus().equalsIgnoreCase(Constants.CLOSED.getValue())){
+      throw new TicketException("Ticket already closed.", Type.INVALID_REQUEST);
+    }
+
     BeanUtils.copyProperties(ticketDTO, ticketEntity);
     ticketEntity.setUpdated(new Date());
     ticketRepository.save(ticketEntity);
 
-    return new TicketResponseDTO(ticketEntity.getId());
+    TicketResponseDTO ticketResponseDTO = new TicketResponseDTO(ticketEntity.getId());
+    BeanUtils.copyProperties(ticketEntity, ticketResponseDTO);
+    return ticketResponseDTO;  }
+
+
+  public TicketResponseDTO getDetailedTicket(Long customerId, Long ticketId) throws TicketException {
+    Optional<CustomerEntity> customerEntityOptional = customerRepository.findById(customerId);
+    if (!customerEntityOptional.isPresent()) {
+      throw new TicketException("Customer not found", Type.ENTITY_NOT_FOUND);
+    }
+
+    Optional<TicketEntity> ticketEntityOptional = ticketRepository.findById(ticketId);
+    if(!ticketEntityOptional.isPresent()){
+      throw new TicketException("Ticket not found", Type.ENTITY_NOT_FOUND);
+    }
+
+    TicketEntity ticketEntity = ticketEntityOptional.get();
+    TicketResponseDTO ticketResponseDTO = new TicketResponseDTO(ticketEntity.getId());
+    BeanUtils.copyProperties(ticketEntity, ticketResponseDTO);
+    return ticketResponseDTO;
   }
+
 
 
 }

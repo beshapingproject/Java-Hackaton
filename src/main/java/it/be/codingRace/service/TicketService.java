@@ -25,10 +25,7 @@ import it.be.codingRace.repository.TicketRepository;
 import it.be.codingRace.utils.ValidatorUtils;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -81,6 +78,7 @@ public class TicketService {
       predicates.add(cb.equal(ticketEntityRoot.get("status"), filters.getStatus()));
     }
     criteriaQuery.where(predicates.toArray(new Predicate[0]));
+    criteriaQuery.orderBy(List.of(cb.asc(ticketEntityRoot.get("created"))));
     return criteriaQuery;
   }
 
@@ -103,6 +101,7 @@ public class TicketService {
     }
     BeanUtils.copyProperties(ticketDTO, ticketEntity);
     ticketEntity.setCreated(new Date());
+    ticketEntity.setUpdated(ticketEntity.getCreated());
     ticketEntity.setStatus(Constants.NEW.getValue());
     ticketEntity.setCustomer(customerEntity);
     ticketRepository.save(ticketEntity);

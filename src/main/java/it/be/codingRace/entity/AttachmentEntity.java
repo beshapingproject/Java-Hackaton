@@ -16,8 +16,7 @@ import java.util.Date;
 public class AttachmentEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "ATTACHMENT_SEQ")
-  @SequenceGenerator(name = "ATTACHMENT_SEQ", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   private String fileName;
